@@ -24,9 +24,9 @@ Route::get('/', function () {
 Route::post('formularioLogin','UsuarioController@verificarUsuario');
 Route::post('cerrar','UsuarioController@cerrarSesion');
 //Administrador
-Route::get('/Admin/registro', function () {
-    return view('registerEmployees');
-});
+Route::get('/Admin/registro','UsuarioController@irRegistro' );
+//Route::get('users/{user}', [UserController::class, 'show']);
+
 
 Route::get('/Admin/index', function () {
     return view('indexAdmin');
@@ -39,9 +39,9 @@ Route::get('/Admin/verUsuarios', function () {
 Route::post('formularioUsuarios','UsuarioController@registroUsuario');
 Route::post('cerrarSesion','UsuarioController@cerrarSesion');
 //Empleado
-Route::get('/Admin/registro', function () {
-    return view('Admin/registerEmployees');
-});
+//Route::get('/Admin/registro', function () {
+  //  return view('Admin/registerEmployees');
+//});
 
 Route::get('/Admin/index', function () {
     return view('Admin/indexAdmin');

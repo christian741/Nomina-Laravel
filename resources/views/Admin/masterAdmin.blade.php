@@ -18,48 +18,40 @@
     @if (Session::has('usuario'))
         @foreach (Session::get('usuario') as $array)
 
-            @foreach ($array as $word => $meaning)
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">Vista Administrador</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+                    aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                @if ($word == 'nombre')
-                    <dd>
-                        <h1> Bienvenido : {{ $meaning }}</h1>
-                    </dd>
-                @endif
-            @endforeach
+                <div class="collapse navbar-collapse" id="navbarColor02">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="./Admin/indexAdmin">Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./Admin/registro">Registrar Usurios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./Admin/verUsuarios">ver Usurios</a>
+                        </li>
+                    </ul>
+
+                    <img src="{{$array['foto']}}">
+                    {{ $array['email'] }}
+                    <form method="POST" action="/cerrarSesion">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-light">Cerrar Sesion</button>
+                    </form>
+                </div>
+            </nav>
+
+
 
         @endforeach
     @endif
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Vista Administrador</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
-            aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarColor02">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="./Admin/indexAdmin">Home
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./Admin/registro">Registrar Usurios</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./Admin/verUsuarios">ver Usurios</a>
-                </li>
-            </ul>
-            <form method="POST" action="/cerrarSesion">
-                @csrf
-                <button type="submit" class="btn btn-outline-light">Cerrar Sesion</button>
-            </form>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-    </nav>
-
     <div class="container">
         @yield('content')
     </div>
