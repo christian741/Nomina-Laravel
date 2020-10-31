@@ -28,18 +28,30 @@
                 <div class="collapse navbar-collapse" id="navbarColor02">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="./Admin/indexAdmin">Home
+                            <a class="nav-link" href="/indexAdmin">Home
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="./Admin/registro">Registrar Usurios</a>
+                            <a class="nav-link" href="/registroAdminUsers">Registrar Usuarios</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="./Admin/verUsuarios">ver Usurios</a>
+                            <a class="nav-link" href="/verUsuarios">ver Usuarios</a>
                         </li>
+                        <li class="nav-item dropdown show">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">Opciones Administrador</a>
+                            <div class="dropdown-menu ">
+                              <a class="dropdown-item" href="#">Action</a>
+                              <a class="dropdown-item" href="#">Another action</a>
+                              <a class="dropdown-item" href="#">Something else here</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="#">Separated link</a>
+                            </div>
+                          </li>
                     </ul>
 
-                    <img src="{{$array['foto']}}">
+                    <img class="rounded-circle" src="{{$array['foto']}}" width="30">
+                    {{ $array['nombre'] }}
+                    {{ $array['apellido'] }}
                     {{ $array['email'] }}
                     <form method="POST" action="/cerrarSesion">
                         @csrf
@@ -50,11 +62,12 @@
 
 
 
-        @endforeach
-    @endif
+    
     <div class="container">
         @yield('content')
     </div>
+    @endforeach
+    @endif
 </body>
 
 <!-- jQuery and JS bundle w/ Popper.js -->

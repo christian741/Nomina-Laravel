@@ -17,7 +17,7 @@
                 <input type="file" name="file">
             </div>
             <div class="card-body">
-                <form method="POST" action="/formularioUsuarios">
+                <form method="POST" action="/formularioUsuarios" enctype="multipart/form-data">
                     @csrf
                     <div class="form-row">
                         <div class="form-group col-md-6">

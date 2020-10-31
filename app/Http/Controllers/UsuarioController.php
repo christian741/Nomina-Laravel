@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Usuario;
+use App\Contrato;
 use \Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UsuarioController extends Controller
 {
@@ -33,6 +35,10 @@ class UsuarioController extends Controller
         $usuarios['telefono'] = $request['telefono'];
         $usuarios['password'] = $request['contraseña'];
         $usuarios['estado'] = 1;
+
+        $contratos = new Contrato;
+
+        $contratos['id_contratos']= $request['contrato'];
         
         $file = $request->file('file');
         //obtenemos el nombre del archivo
@@ -44,7 +50,7 @@ class UsuarioController extends Controller
         $usuarios['foto'] = $nombre;
         $usuarios->save();
 
-        return view('Admin/registerEmployees');
+        return view('registerEmployees');
     }
     /**
      * [verificarUsuario description]
@@ -55,50 +61,47 @@ class UsuarioController extends Controller
      */
     public function verificarUsuario(Request $request)
     {
-
+        
         Session::forget('usuario');
 
         $cedula = $request->input('cedula');
-        $contraseña = $request->input('password');
+        $password = $request->input('password');
 
+        $out = new \Symfony\Component\Console\Output\ConsoleOutput();
+       
 
-        $dataCategoria = usuario::all();
-        $array = $dataCategoria->toArray();
+        $usuarios = DB::table('usuarios')->get();
+        $out->writeln("Hello from Terminal".\sizeof($usuarios));
+        foreach($usuarios as $usuario){
+            if($usuario->cedula==$cedula){
 
-        for ($i = 0; $i < sizeof($array); $i++) {
-            $valor = $array[$i];
-
-            if ($valor['cedula'] == $cedula && $valor['password'] == $contraseña) {
-                if (Session::has('usuario')) {
-
-                    $dato = Session::get('usuario');
-                    $dato[] = array(
-                        'foto' => $valor['foto'],
-                        'nombre' => $valor['nombre1'],
-                        'apellido' => $valor['apellido1'],
-                        'email' => $valor['email'],
-
-                    );
-                   
-                    Session::put('usuario', $dato);
-                } else {
-                    $dato1[] = array(
-                        'foto' => $valor['foto'],
-                        'nombre' => $valor['nombre1'],
-                        'apellido' => $valor['apellido1'],
-                        'email' => $valor['email'],
-
-                    );
-
-                    Session::put('usuario', $dato1);
-                }
-
-                if (Session::has('usuario')) {
-                    return view('/Admin/indexAdmin');
-                }
+                $dato1[] = array(
+                    'foto' => $usuario->foto,
+                    'nombre' => $usuario->nombre1,
+                    'apellido' => $usuario->apellido1,
+                    'email' => $usuario->email,
+                    'rol'=> $usuario->id_rol,
+                );
+                $out->writeln("Hello from Terminal". $usuario->email);
+                $request->session()->put('usuario', $dato1);    
             }
+            $out->writeln("Hello from Terminal". strlen($usuario->cedula));
+            $out->writeln("Hello from Terminal". strlen($cedula));
         }
-        return view('/Admin/index');
+        $valor = $request->session()->get('usuario');
+        
+        if($valor[0]['rol']==1){
+            return view('/Admin/indexAdmin');
+        }
+        if($valor[0]['rol']==2){
+            return view('/Employee/indexEmployee');
+        }
+        
+        //$out->writeln("Hello from Terminal".$valor);
+
+        //\abort(404);
+        
+         
     }
 
     public function cerrarSesion()
@@ -111,4 +114,10 @@ class UsuarioController extends Controller
         $contratos = DB::table('contratos')->get();
         return view('Admin/registerEmployees', ['contratos' => $contratos]);
     }
+    public function verEmpleados(Request $request){
+        $usuarios = DB::table('usuarios')->get();
+        return view('Admin/verEmployees', ['usuarios' => $usuarios]);
+    }
+    
+    
 }

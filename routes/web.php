@@ -12,42 +12,28 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-//Main
+Route::get('/indexEmployee',function(){
+  return view('/Employee/indexEmployee');
+});
+Route::get('/verPagos',function(){
+  return view('/Employee/seePaids');
+});
 Route::get('/login', function () {
     return view('Main/login');
 });
-
 Route::get('/', function () {
     return view('Main/index');
 });
+Route::get('/registroAdminUsers','UsuarioController@irRegistro' );
+Route::get('/verUsuarios','UsuarioController@verEmpleados' );
+Route::get('/indexAdmin', function () {
+  return view('Admin/indexAdmin');
+});
 Route::post('formularioLogin','UsuarioController@verificarUsuario');
 Route::post('cerrar','UsuarioController@cerrarSesion');
-//Administrador
-Route::get('/Admin/registro','UsuarioController@irRegistro' );
-//Route::get('users/{user}', [UserController::class, 'show']);
-
-
-Route::get('/Admin/index', function () {
-    return view('indexAdmin');
-});
-
-Route::get('/Admin/verUsuarios', function () {
-    return view('verEmployees');
-});
-
 Route::post('formularioUsuarios','UsuarioController@registroUsuario');
 Route::post('cerrarSesion','UsuarioController@cerrarSesion');
-//Empleado
-//Route::get('/Admin/registro', function () {
-  //  return view('Admin/registerEmployees');
-//});
-
-Route::get('/Admin/index', function () {
-    return view('Admin/indexAdmin');
-});
 Route::post('cerrar','UsuarioController@cerrarSesion');
-
 /**
  * [$archivo description]
  *
